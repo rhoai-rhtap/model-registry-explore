@@ -4,10 +4,10 @@
     "config:recommended"
   ],
   "branchPrefix": "renovate/",
-  "baseBranches": ["main", "rhoai-2.16"],
-  "enabledManagers": ["dockerfile", "tekton"],
+  "enabledManagers": ["dockerfile", "tekton", "rpm"],
   "dockerfile": {
     "enabled": true,
+    "baseBranches": ["main"],
     "additionalBranchPrefix": "{{baseBranch}}/",
     "branchPrefix": "konflux/mintmaker/",
     "packageRules": [
@@ -32,6 +32,7 @@
     ],
   "ignoreTests": true,
   "automergeType": "pr",
+  "baseBranches": ["test-1"],
   "automerge": true,
     "packageRules": [
       {
