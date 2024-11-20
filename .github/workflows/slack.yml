@@ -18,7 +18,6 @@ jobs:
           echo "PR Author: ${{ github.event.pull_request.user.login }}"
           echo "PR Title: ${{ github.event.pull_request.title }}"
           echo "PR URL: ${{ github.event.pull_request.html_url }}"
-
       # Ensure SLACK_WEBHOOK_URL is set
       - name: Verify Slack Webhook URL
         run: |
@@ -31,7 +30,7 @@ jobs:
 
       # Notify Slack if the PR author matches
       - name: Notify Slack
-        if: ${{ github.event.pull_request.user.login == 'Konflux Internal p02' }}
+        if: ${{ github.event.pull_request.user.login == 'konflux-internal-p02[bot]' }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           PR_TITLE: ${{ github.event.pull_request.title }}
