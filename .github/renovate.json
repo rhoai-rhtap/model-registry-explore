@@ -4,18 +4,12 @@
     "config:recommended"
   ],
   "branchPrefix": "renovate/",
-  "baseBranches": ["main", "rhoai-2.16"],
-  "ignoreTests": true,
-  "automergeType": "pr",
-  "automerge": true,
-  "enabledManagers": ["dockerfile", "tekton", "rpm"],
+  "enabledManagers": ["dockerfile", "tekton"],
   "dockerfile": {
     "enabled": true,
+    "baseBranches": ["main"],
     "additionalBranchPrefix": "{{baseBranch}}/",
     "branchPrefix": "konflux/mintmaker/",
-    "ignoreTests": true,
-    "automergeType": "pr",
-    "automerge": true,
     "packageRules": [
       {
         "matchUpdateTypes": ["major", "minor", "pin", "pinDigest", "patch", "bump"],
@@ -23,9 +17,6 @@
       },
       {
         "matchUpdateTypes": ["digest"],
-        "enabled": true
-      },
-      {
         "matchFileNames": ["*Dockerfile.konflux*"],
         "enabled": true
       }
@@ -39,6 +30,10 @@
     "includePaths": [
       ".tekton/**"
     ],
+  "ignoreTests": true,
+  "automergeType": "pr",
+  "baseBranches": ["test-1"],
+  "automerge": true,
     "packageRules": [
       {
         "matchUpdateTypes": ["major", "minor", "pin", "pinDigest", "patch", "bump"],
@@ -54,7 +49,7 @@
         "groupName": "Konflux references",
         "branchPrefix": "konflux/references/",
         "group": {
-          "branchTopic": "{{{baseBranch}}}",
+          "branchTopic": "test-1",
           "commitMessageTopic": "{{{groupName}}}"
         },
         "commitMessageTopic": "Konflux references",
