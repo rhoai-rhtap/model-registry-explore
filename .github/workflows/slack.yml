@@ -1,0 +1,44 @@
+name: Slack Notification for Specific PR
+
+on:
+  pull_request:
+    types:
+      - opened
+
+permissions:
+  contents: read
+
+jobs:
+  notify-slack:
+    runs-on: ubuntu-latest
+    steps:
+      # Debug: Log PR details for confirmation
+      - name: Log PR Details
+        run: |
+          echo "PR Author: ${{ github.event.pull_request.user.login }}"
+          echo "PR Title: ${{ github.event.pull_request.title }}"
+          echo "PR URL: ${{ github.event.pull_request.html_url }}"
+
+      # Ensure SLACK_WEBHOOK_URL is set
+      - name: Verify Slack Webhook URL
+        run: |
+          if [ -z "$SLACK_WEBHOOK_URL" ]; then
+            echo "Error: SLACK_WEBHOOK_URL is not set or empty."
+            exit 1
+          fi
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      # Notify Slack if the PR author matches
+      - name: Notify Slack
+        if: ${{ github.event.pull_request.user.login == 'Konflux Internal p02' }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data "{
+            \"text\": \"📢 *Pull Request Opened by Konflux Internal p02!*\n*Title:* $PR_TITLE\n*URL:* <$PR_URL>\"
+          }" \
+          $SLACK_WEBHOOK_URL
