@@ -11,8 +11,8 @@
     "additionalBranchPrefix": "{{baseBranch}}/",
     "branchPrefix": "konflux/mintmaker/",
     "packageRules": [
-     {
-        "matchUpdateTypes": ["*"],
+      {
+        "matchUpdateTypes": ["major", "minor", "pin", "pinDigest", "patch", "bump"],
         "enabled": false
       },
       {
@@ -54,7 +54,7 @@
         },
         "commitMessageTopic": "Konflux references",
         "semanticCommits": "enabled",
-        "prFooter": "To execute skipped test pipelines write comment /ok-to-test",
+        "prFooter": "To execute skipped test pipelines write comment `/ok-to-test`",
         "prBodyColumns": [
           "Package",
           "Change",
