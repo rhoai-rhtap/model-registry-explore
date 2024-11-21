@@ -7,12 +7,12 @@
   "enabledManagers": ["dockerfile", "tekton"],
   "dockerfile": {
     "enabled": true,
-    "branchTopic": "main",
+    "baseBranches": ["main"],
     "additionalBranchPrefix": "{{baseBranch}}/",
     "branchPrefix": "konflux/mintmaker/",
     "packageRules": [
-      {
-        "matchUpdateTypes": ["major", "minor", "pin", "pinDigest", "patch", "bump"],
+     {
+        "matchUpdateTypes": ["*"],
         "enabled": false
       },
       {
@@ -32,6 +32,7 @@
     ],
   "ignoreTests": true,
   "automergeType": "pr",
+  "baseBranches": ["test-1"],
   "automerge": true,
     "packageRules": [
       {
@@ -53,7 +54,7 @@
         },
         "commitMessageTopic": "Konflux references",
         "semanticCommits": "enabled",
-        "prFooter": "To execute skipped test pipelines write comment `/ok-to-test`",
+        "prFooter": "To execute skipped test pipelines write comment /ok-to-test",
         "prBodyColumns": [
           "Package",
           "Change",
