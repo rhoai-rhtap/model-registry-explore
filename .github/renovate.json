@@ -1,38 +1,31 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "branchPrefix": "renovate/",
   "enabledManagers": ["dockerfile", "tekton"],
   "dockerfile": {
     "enabled": true,
     "baseBranches": ["main"],
-    "additionalBranchPrefix": "{{baseBranch}}/",
-    "branchPrefix": "konflux/mintmaker/",
     "packageRules": [
       {
-        "matchFileNames": ["*Dockerfile.konflux*"],
         "matchUpdateTypes": ["*"],
         "enabled": false
       },
       {
-        "matchFileNames": ["*Dockerfile.konflux*"],
         "matchUpdateTypes": ["digest"],
-        "enabled": true,
-        "groupName": "Dockerfile.konflux digest updates",
-        "branchPrefix": "digest-updates/"
+        "matchFileNames": ["*Dockerfile.konflux*"],
+        "enabled": true
       }
     ]
   },
   "tekton": {
     "fileMatch": ["\\.yaml$", "\\.yml$"],
     "includePaths": [".tekton/**"],
-    "ignoreTests": true,
+    "schedule": ["before 12:00pm"],
     "automergeType": "pr",
     "baseBranches": ["test-1"],
     "automerge": true,
     "packageRules": [
       {
-        "matchUpdateTypes": ["*"],
+        "matchUpdateTypes": ["major", "minor", "patch"],
         "enabled": false
       },
       {
