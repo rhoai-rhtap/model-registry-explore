@@ -10,7 +10,7 @@
     "baseBranches": ["main"],
     "additionalBranchPrefix": "{{baseBranch}}/",
     "branchPrefix": "konflux/mintmaker/",
-   "packageRules": [
+    "packageRules": [
      {
         "matchUpdateTypes": ["*"],
         "enabled": false
