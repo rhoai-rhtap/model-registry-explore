@@ -7,14 +7,13 @@
     "baseBranches": ["main", "test-1"],
     "packageRules": [
       {
-        "matchDatasources": ["docker"],
-        "matchDepNames": ["registry.redhat.io/ubi8/go-toolset"],
-        "matchUpdateTypes": ["digest"],
+        "schedule": ["At any time"],
         "matchFileNames": ["*Dockerfile.konflux*"],
+        "matchUpdateTypes": ["digest"],
         "enabled": true,
-        "branchPrefix": "update/go-toolset-digest/",
-        "groupName": "Go Toolset Digest Updates",
-        "prBodyTemplate": "Updates the digest for {{depName}} to the latest available digest ({{newDigest}})."
+        "groupName": "Dockerfile Digest Updates",
+        "branchPrefix": "konflux/digest-update/",
+        "prBodyTemplate": "Updates Docker image digest for {{packageName}} to {{newVersion}}"
       }
     ]
   }
