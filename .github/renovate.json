@@ -1,20 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "enabledManagers": ["tekton"],
+  "enabledManagers": ["dockerfile"],
   "tekton": {
-    "schedule": ["before 3pm"],
     "enabled": true,
-    "fileMatch": ["\\.yaml$", "\\.yml$"],
-    "includePaths": [".tekton/**"],
-    "baseBranches": ["test-1"],
+    "baseBranches": ["main", "test-1"],
     "packageRules": [
       {
+        "matchDatasources": ["docker"],
+        "matchDepNames": ["registry.redhat.io/ubi8/go-toolset"],
+        "matchCurrentTags": ["1.21"],
         "matchUpdateTypes": ["digest"],
+        "enabled": true,
         "branchPrefix": "konflux/references/",
-        "automerge": true,
-        "semanticCommits": "enabled",
-        "prBodyTemplate": "Updates Tekton catalog image digest for {{packageName}} to {{newVersion}}"
+        "groupName": "Go Toolset Digest Updates",
+        "branchPrefix": "update/go-toolset-digest/",
+        "prBodyTemplate": "Updates the digest for {{depName}}:{{currentTag}} to the latest available digest ({{newDigest}})."
       }
     ]
   }
