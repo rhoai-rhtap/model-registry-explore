@@ -3,7 +3,7 @@
   "extends": ["config:recommended"],
   "enabledManagers": ["tekton"],
   "tekton": {
-    "schedule": ["at any time"],
+    "schedule": ["before 3pm"],
     "enabled": true,
     "fileMatch": ["\\.yaml$", "\\.yml$"],
     "includePaths": [".tekton/**"],
