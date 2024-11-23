@@ -6,7 +6,6 @@
   "dockerfile": {
     "enabled": true,
     "baseBranches": ["main"],
-    "additionalBranchPrefix": "{{baseBranch}}/",
     "branchPrefix": "konflux/mintmaker/",
     "packageRules": [
       {"matchUpdateTypes": ["*"], "enabled": false},
@@ -14,7 +13,7 @@
         "matchUpdateTypes": ["digest"],
         "matchFileNames": ["*Dockerfile.konflux*"],
         "enabled": true,
-        "schedule": ["before 1pm on saturday"],
+        "schedule": ["before 1pm on saturday"]
       }
     ]
   },
@@ -45,7 +44,7 @@
         "branchPrefix": "konflux/references/",
         "group": {
           "branchTopic": "test-1",
-          "commitMessageTopic": "{{{groupName}}}"
+          "commitMessageTopic": "{{groupName}}"
         },
         "commitMessageTopic": "Konflux references",
         "semanticCommits": "enabled",
@@ -54,7 +53,7 @@
         "prBodyDefinitions": {
           "Notes": "{{#if (or (containsString updateType 'minor') (containsString updateType 'major'))}}:warning:[migration](https://github.com/redhat-appstudio/build-definitions/blob/main/task/{{{replace '^quay.io/(redhat-appstudio-tekton-catalog|konflux-ci/tekton-catalog)/task-' '' packageName}}}/{{{newVersion}}}/MIGRATION.md):warning:{{/if}}"
         },
-        "prBodyTemplate": "{{{header}}}{{{table}}}{{{notes}}}{{{changelogs}}}{{{controls}}}{{{footer}}}",
+        "prBodyTemplate": "{{header}}{{table}}{{notes}}{{changelogs}}{{controls}}{{footer}}",
         "recreateWhen": "always",
         "rebaseWhen": "behind-base-branch",
         "matchPackageNames": [
