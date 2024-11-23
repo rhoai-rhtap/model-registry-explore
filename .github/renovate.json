@@ -7,7 +7,7 @@
     "baseBranches": ["main", "test-1"],
     "packageRules": [
       {
-        "schedule": ["At any time"],
+        "schedule": ["before 1pm"],
         "matchFileNames": ["*Dockerfile.konflux*"],
         "matchUpdateTypes": ["digest"],
         "enabled": true,
