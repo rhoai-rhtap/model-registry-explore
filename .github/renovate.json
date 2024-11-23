@@ -8,10 +8,9 @@
     "baseBranches": ["main"],
     "branchPrefix": "konflux/mintmaker/",
     "packageRules": [
-      {"matchUpdateTypes": ["*"], "enabled": false},
       {
-        "matchUpdateTypes": ["digest"],
         "matchFileNames": ["*Dockerfile.konflux*"],
+        "matchUpdateTypes": ["digest"],
         "enabled": true,
         "schedule": ["before 1pm on saturday"]
       }
