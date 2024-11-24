@@ -5,6 +5,7 @@
   "baseBranches": ["main", "test-1"],
   "dockerfile": {
     "enabled": true,
+    "baseBranches": ["main", "test-1"],
     "packageRules": [
       {
         "matchBaseBranches": ["main"],
@@ -24,10 +25,19 @@
     "ignoreTests": true,
     "automergeType": "pr",
     "automerge": true,
+    "baseBranches": ["main", "test-1"],
     "packageRules": [
       {
         "matchBaseBranches": ["test-1"],
         "schedule": ["at any time"],
+        "matchUpdateTypes": [
+          "major",
+          "minor",
+          "pin",
+          "pinDigest",
+          "patch",
+          "bump"
+        ],
         "enabled": false
       },
       {
@@ -35,6 +45,11 @@
         "enabled": true,
         "groupName": "Konflux references",
         "branchPrefix": "konflux/references/",
+        "group": {
+          "branchTopic": "{{{baseBranch}}}",
+          "commitMessageTopic": "{{{groupName}}}"
+        },
+        "commitMessageTopic": "Konflux references",
         "semanticCommits": "enabled",
         "prFooter": "To execute skipped test pipelines write comment `/ok-to-test`",
         "prBodyColumns": ["Package", "Change", "Notes"],
