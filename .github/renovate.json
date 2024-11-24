@@ -12,7 +12,7 @@
         "matchFileNames": ["*Dockerfile.konflux*"],
         "matchUpdateTypes": ["digest"],
         "enabled": true,
-        "schedule": ["before 1pm on saturday"]
+        "schedule": ["at any time"]
       }
     ]
   },
@@ -33,7 +33,7 @@
           "patch",
           "bump"
         ],
-        "schedule": ["before 1pm on saturday"],
+        "schedule": ["at any time"],
         "enabled": false
       },
       {
