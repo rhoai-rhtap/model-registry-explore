@@ -1,46 +1,17 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "enabledManagers": ["dockerfile", "tekton"],
+  "enabledManagers": ["tekton"],
   "baseBranches": ["main", "test-1"],
-  "dockerfile": {
-    "enabled": true,
-    "baseBranches": ["main", "test-1"],
-    "packageRules": [
-      {
-        "matchBaseBranches": ["main"],
-        "schedule": ["at any time"],
-        "matchFileNames": ["*Dockerfile.konflux*"],
-        "matchUpdateTypes": ["digest"],
-        "enabled": true,
-        "groupName": "Dockerfile Digest Updates",
-        "branchPrefix": "konflux/digest-update/",
-        "prBodyTemplate": "Updates Docker image digest for {{packageName}} to {{newVersion}}"
-      }
-    ]
-  },
   "tekton": {
     "fileMatch": ["\\.yaml$", "\\.yml$"],
     "includePaths": [".tekton/**"],
     "ignoreTests": true,
     "automergeType": "pr",
     "automerge": true,
-    "baseBranches": ["main", "test-1"],
     "packageRules": [
       {
         "matchBaseBranches": ["test-1"],
-        "schedule": ["at any time"],
-        "matchUpdateTypes": [
-          "major",
-          "minor",
-          "pin",
-          "pinDigest",
-          "patch",
-          "bump"
-        ],
-        "enabled": false
-      },
-      {
         "matchUpdateTypes": ["digest"],
         "enabled": true,
         "groupName": "Konflux references",
@@ -49,7 +20,6 @@
           "branchTopic": "{{{baseBranch}}}",
           "commitMessageTopic": "{{{groupName}}}"
         },
-        "commitMessageTopic": "Konflux references",
         "semanticCommits": "enabled",
         "prFooter": "To execute skipped test pipelines write comment `/ok-to-test`",
         "prBodyColumns": ["Package", "Change", "Notes"],
