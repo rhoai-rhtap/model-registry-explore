@@ -4,6 +4,7 @@
   "enabledManagers": ["tekton"],
   "baseBranches": ["main", "test-1"],
   "tekton": {
+    "baseBranches": ["main", "test-1"],
     "fileMatch": ["\\.yaml$", "\\.yml$"],
     "includePaths": [".tekton/**"],
     "ignoreTests": true,
