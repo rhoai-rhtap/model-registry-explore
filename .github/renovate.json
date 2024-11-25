@@ -2,21 +2,20 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "enabledManagers": ["dockerfile", "tekton"],
-  "baseBranches": ["main", "test-1"],
   "dockerfile": {
     "enabled": true,
     "additionalBranchPrefix": "{{baseBranch}}/",
     "branchPrefix": "konflux/mintmaker/",
+    "baseBranches": ["main"],
     "packageRules": [
       {
-        "matchBaseBranches": ["main"],
-        "schedule": ["at any time"],
-        "matchFileNames": ["*Dockerfile.konflux*"],
+        "matchUpdateTypes": ["major", "minor", "pin", "pinDigest", "patch", "bump"],
+        "enabled": false
+      },
+      {
         "matchUpdateTypes": ["digest"],
-        "enabled": true,
-        "groupName": "Dockerfile Digest Updates",
-        "branchPrefix": "konflux/digest-update/",
-        "prBodyTemplate": "Updates Docker image digest for {{packageName}} to {{newVersion}}"
+        "matchFileNames": ["*Dockerfile.konflux*"],
+        "enabled": true
       }
     ]
   },
@@ -26,6 +25,7 @@
     "ignoreTests": true,
     "automergeType": "pr",
     "automerge": true,
+    "baseBranches": ["test-1"],
     "packageRules": [
       {
         "matchBaseBranches": ["test-1"],
