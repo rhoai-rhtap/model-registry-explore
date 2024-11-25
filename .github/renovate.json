@@ -1,60 +1,46 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": ["config:recommended"],
-    "branchPrefix": "renovate/",
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "enabledManagers": ["dockerfile", "tekton"],
+  "baseBranches": ["main", "test-1"],
+
+  "dockerfile": {
+    "enabled": true,
+    "baseBranches": ["main"],  // Only apply for main branch for Dockerfile
+    "schedule": ["at any time"],
+    "branchPrefix": "konflux/mintmaker/",
     "ignoreTests": true,
     "automergeType": "pr",
     "automerge": true,
-    "enabledManagers": ["dockerfile", "tekton"],
-    "baseBranches": ["main", "test-1"],
-  
-    "dockerfile": {
-      "baseBranches": ["main"],
-      "schedule": ["at any time"],
-      "enabled": true,
-      "additionalBranchPrefix": "konflux/mintmaker/",
-      "branchPrefix": "konflux/mintmaker/",
-      "ignoreTests": true,
-      "automergeType": "pr",
-      "automerge": true
-    },
-  
-    "tekton": {
-      "baseBranches": ["test-1"],
-      "includePaths": [".tekton/**"],  // Include files in the .tekton folder
-      "enabled": true
-    },
-  
     "packageRules": [
       {
-        "description": "Disable all updates globally before enabling selectively",
-        "matchPackageNames": ["*"],
-        "enabled": false
-      },
-      {
-        "enabled": true,
-        "groupName": "Dockerfile - main",
-        "matchBaseBranches": ["main"],
+        "matchBaseBranches": ["main"],  // Ensure Dockerfile only updates on the main branch
         "matchManagers": ["dockerfile"],
-        "matchFileNames": ["**/Dockerfile.konflux*"],
-        "additionalBranchPrefix": "konflux/mintmaker/",
-        "branchPrefix": "konflux/mintmaker/",
-        "automergeType": "pr",
-        "automerge": true,
-        "schedule": ["at any time"],
-        "matchUpdateTypes": ["digest"]
-      },
+        "matchUpdateTypes": ["digest"],
+        "enabled": true
+      }
+    ]
+  },
+
+  "tekton": {
+    "enabled": true,
+    "baseBranches": ["test-1"],  // Ensure Tekton only updates on the test-1 branch
+    "includePaths": [".tekton/**"],
+    "fileMatch": ["\\.yaml$", "\\.yml$"],
+    "ignoreTests": true,
+    "automergeType": "pr",
+    "automerge": true,
+    "packageRules": [
       {
+        "matchBaseBranches": ["test-1"],  // Tekton rules for test-1 branch
+        "matchUpdateTypes": ["digest"],
         "enabled": true,
-        "groupName": "Tekton - test-1",
-        "matchBaseBranches": ["test-1"],
-        "matchManagers": ["tekton"],
+        "groupName": "Konflux references",
         "branchPrefix": "konflux/references/",
         "group": {
           "branchTopic": "{{{baseBranch}}}",
           "commitMessageTopic": "{{{groupName}}}"
         },
-        "commitMessageTopic": "Konflux references",
         "semanticCommits": "enabled",
         "prFooter": "To execute skipped test pipelines write comment `/ok-to-test`",
         "prBodyColumns": ["Package", "Change", "Notes"],
@@ -64,14 +50,13 @@
         "prBodyTemplate": "{{{header}}}{{{table}}}{{{notes}}}{{{changelogs}}}{{{controls}}}{{{footer}}}",
         "recreateWhen": "always",
         "rebaseWhen": "behind-base-branch",
-        "matchUpdateTypes": ["digest"],
         "matchPackageNames": [
-          "/^quay.io/redhat-appstudio-tekton-catalog//",
-          "/^quay.io/konflux-ci/tekton-catalog//"
+          "^quay.io/redhat-appstudio-tekton-catalog/",
+          "^quay.io/konflux-ci/tekton-catalog/"
         ]
       }
-    ],
-  
-    "prHourlyLimit": 0
-  }
-  
+    ]
+  },
+
+  "prHourlyLimit": 0
+}
