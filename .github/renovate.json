@@ -4,12 +4,12 @@
     "config:recommended"
   ],
   "branchPrefix": "renovate/",
-  "baseBranches": ["main", "test-1"],
   "ignoreTests": true,
   "automergeType": "pr",
   "automerge": true,
   "enabledManagers": ["dockerfile", "tekton"],
   "dockerfile": {
+    "baseBranches": ["main"],
     "schedule": ["at any time"],
     "enabled": true,
     "additionalBranchPrefix": "{{baseBranch}}/",
@@ -24,7 +24,8 @@
       },
       {
         "matchUpdateTypes": ["digest"],
-        "enabled": true
+        "enabled": true,
+        "matchBaseBranches": ["main"],
       },
       {
         "matchFileNames": ["*Dockerfile.konflux*"],
@@ -33,6 +34,7 @@
     ]
   },
   "tekton": {
+    "baseBranches": ["test-1"],
     "fileMatch": [
       "\\.yaml$",
       "\\.yml$"
@@ -50,6 +52,7 @@
           "^quay.io/redhat-appstudio-tekton-catalog/",
           "^quay.io/konflux-ci/tekton-catalog/"
         ],
+        "matchBaseBranches": ["test-1"],
         "matchUpdateTypes": ["digest"],
         "enabled": true,
         "groupName": "Konflux references",
