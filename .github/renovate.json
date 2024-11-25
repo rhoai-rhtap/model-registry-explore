@@ -7,6 +7,7 @@
     "automerge": true,
     "enabledManagers": ["dockerfile", "tekton"],
     "baseBranches": ["main", "test-1"],
+  
     "dockerfile": {
       "baseBranches": ["main"],
       "schedule": ["at any time"],
@@ -17,7 +18,13 @@
       "automergeType": "pr",
       "automerge": true
     },
-    "tekton": {"baseBranches": ["test-1"], "includePaths": [".tekton/**"]},
+  
+    "tekton": {
+      "baseBranches": ["test-1"],
+      "includePaths": [".tekton/**"],  // Include files in the .tekton folder
+      "enabled": true
+    },
+  
     "packageRules": [
       {
         "description": "Disable all updates globally before enabling selectively",
@@ -64,5 +71,7 @@
         ]
       }
     ],
+  
     "prHourlyLimit": 0
   }
+  
