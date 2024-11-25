@@ -6,7 +6,7 @@
 
   "dockerfile": {
     "enabled": true,
-    "baseBranches": ["main"],  // Only apply for main branch for Dockerfile
+    "baseBranches": ["main"],
     "schedule": ["at any time"],
     "branchPrefix": "konflux/mintmaker/",
     "ignoreTests": true,
@@ -14,7 +14,7 @@
     "automerge": true,
     "packageRules": [
       {
-        "matchBaseBranches": ["main"],  // Ensure Dockerfile only updates on the main branch
+        "matchBaseBranches": ["main"],
         "matchManagers": ["dockerfile"],
         "matchUpdateTypes": ["digest"],
         "enabled": true
@@ -24,7 +24,7 @@
 
   "tekton": {
     "enabled": true,
-    "baseBranches": ["test-1"],  // Ensure Tekton only updates on the test-1 branch
+    "baseBranches": ["test-1"],
     "includePaths": [".tekton/**"],
     "fileMatch": ["\\.yaml$", "\\.yml$"],
     "ignoreTests": true,
@@ -32,7 +32,7 @@
     "automerge": true,
     "packageRules": [
       {
-        "matchBaseBranches": ["test-1"],  // Tekton rules for test-1 branch
+        "matchBaseBranches": ["test-1"],
         "matchUpdateTypes": ["digest"],
         "enabled": true,
         "groupName": "Konflux references",
