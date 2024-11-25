@@ -1,17 +1,23 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "enabledManagers": ["tekton"],
-  "baseBranches": ["main", "test-1"],
+  "branchPrefix": "renovate/",
+  "ignoreTests": true,
+  "automergeType": "pr",
+  "automerge": true,
+  "enabledManagers": ["dockerfile", "tekton"],
   "tekton": {
+    "baseBranches": ["test-1"],
     "fileMatch": ["\\.yaml$", "\\.yml$"],
     "includePaths": [".tekton/**"],
-    "ignoreTests": true,
-    "automergeType": "pr",
-    "automerge": true,
     "packageRules": [
       {
+        "matchUpdateTypes": ["major", "minor", "pin", "pinDigest", "patch", "bump"],
+        "enabled": false
+      },
+      {
         "matchBaseBranches": ["test-1"],
+        "schedule": ["at any time"],
         "matchUpdateTypes": ["digest"],
         "enabled": true,
         "groupName": "Konflux references",
@@ -20,6 +26,7 @@
           "branchTopic": "{{{baseBranch}}}",
           "commitMessageTopic": "{{{groupName}}}"
         },
+        "commitMessageTopic": "Konflux references",
         "semanticCommits": "enabled",
         "prFooter": "To execute skipped test pipelines write comment `/ok-to-test`",
         "prBodyColumns": ["Package", "Change", "Notes"],
@@ -30,9 +37,36 @@
         "recreateWhen": "always",
         "rebaseWhen": "behind-base-branch",
         "matchPackageNames": [
-          "^quay.io/redhat-appstudio-tekton-catalog/",
-          "^quay.io/konflux-ci/tekton-catalog/"
+          "/^quay.io/redhat-appstudio-tekton-catalog//",
+          "/^quay.io/konflux-ci/tekton-catalog//"
         ]
+      }
+    ]
+  },
+  "dockerfile": {
+    "baseBranches": ["main"],
+    "schedule": ["at any time"],
+    "enabled": true,
+    "additionalBranchPrefix": "{{baseBranch}}/",
+    "branchPrefix": "konflux/mintmaker/",
+    "ignoreTests": true,
+    "automergeType": "pr",
+    "automerge": true,
+    "packageRules": [
+      {
+        "matchBaseBranches": ["main"],
+        "matchUpdateTypes": ["major", "minor", "pin", "pinDigest", "patch", "bump"],
+        "enabled": false
+      },
+      {
+        "matchBaseBranches": ["main"],
+        "matchUpdateTypes": ["digest"],
+        "enabled": true
+      },
+      {
+        "matchBaseBranches": ["main"],
+        "matchFileNames": ["*Dockerfile.konflux*"],
+        "enabled": true
       }
     ]
   },
