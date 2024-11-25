@@ -2,11 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "enabledManagers": ["dockerfile", "tekton"],
+  "baseBranches": ["main", "test-1"],
   "dockerfile": {
     "enabled": true,
     "additionalBranchPrefix": "{{baseBranch}}/",
     "branchPrefix": "konflux/mintmaker/",
-    "baseBranches": ["main"],
     "packageRules": [
       {
         "matchBaseBranches": ["main"],
@@ -26,7 +26,6 @@
     "ignoreTests": true,
     "automergeType": "pr",
     "automerge": true,
-    "baseBranches": ["test-1"],
     "packageRules": [
       {
         "matchBaseBranches": ["test-1"],
