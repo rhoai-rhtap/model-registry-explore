@@ -9,6 +9,7 @@
     "baseBranches": ["main"],
     "packageRules": [
       {
+        "matchBaseBranches": ["main"],
         "matchUpdateTypes": ["major", "minor", "pin", "pinDigest", "patch", "bump"],
         "enabled": false
       },
