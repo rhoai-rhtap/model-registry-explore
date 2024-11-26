@@ -6,11 +6,11 @@
     "enabled": true,
     "additionalBranchPrefix": "{{baseBranch}}/",
     "branchPrefix": "konflux/mintmaker/",
-    "baseBranches": ["main"],
+    "baseBranches": ["main", "test-1"],
     "schedule": ["at any time"],
     "packageRules": [
       {
-        "matchBaseBranches": ["main"],
+        "matchBaseBranches": ["main", "test-1"],
         "matchManagers": ["dockerfile"],
         "matchUpdateTypes": [
           "major",
