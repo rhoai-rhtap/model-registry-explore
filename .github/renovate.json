@@ -2,22 +2,58 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "branchPrefix": "renovate/",
-  "ignoreTests": true,
-  "automergeType": "pr",
-  "automerge": true,
-  "enabledManagers": ["dockerfile", "tekton"],
-  "tekton": {
-    "baseBranches": ["test-1"],
-    "fileMatch": ["\\.yaml$", "\\.yml$"],
-    "includePaths": [".tekton/**"],
+  "dockerfile": {
+    "enabled": true,
+    "additionalBranchPrefix": "{{baseBranch}}/",
+    "branchPrefix": "konflux/mintmaker/",
+    "baseBranches": ["main"],
+    "schedule": ["at any time"],
     "packageRules": [
       {
-        "matchUpdateTypes": ["major", "minor", "pin", "pinDigest", "patch", "bump"],
+        "matchBaseBranches": ["main"],
+        "matchManagers": ["dockerfile"],
+        "matchUpdateTypes": [
+          "major",
+          "minor",
+          "pin",
+          "pinDigest",
+          "patch",
+          "bump"
+        ],
+        "enabled": false
+      },
+      {
+        "matchBaseBranches": ["main"],
+        "matchManagers": ["dockerfile"],
+        "matchUpdateTypes": ["digest"],
+        "matchFileNames": ["*Dockerfile.konflux*"],
+        "enabled": true,
+        "groupName": "Dockerfile Digest Updates"
+      }
+    ]
+  },
+  "tekton": {
+    "fileMatch": ["\\.yaml$", "\\.yml$"],
+    "includePaths": [".tekton/**"],
+    "schedule": ["at any time"],
+    "baseBranches": ["test-1"],
+    "packageRules": [
+      {
+        "matchBaseBranches": ["test-1"],
+        "matchManagers": ["tekton"],
+        "matchUpdateTypes": [
+          "major",
+          "minor",
+          "pin",
+          "pinDigest",
+          "patch",
+          "bump"
+        ],
         "enabled": false
       },
       {
         "matchBaseBranches": ["test-1"],
-        "schedule": ["at any time"],
+        "matchManagers": ["tekton"],
         "matchUpdateTypes": ["digest"],
         "enabled": true,
         "groupName": "Konflux references",
@@ -40,27 +76,6 @@
           "/^quay.io/redhat-appstudio-tekton-catalog//",
           "/^quay.io/konflux-ci/tekton-catalog//"
         ]
-      }
-    ]
-  },
-  "dockerfile": {
-    "baseBranches": ["main"],
-    "schedule": ["at any time"],
-    "enabled": true,
-    "additionalBranchPrefix": "{{baseBranch}}/",
-    "ignoreTests": true,
-    "automergeType": "pr",
-    "automerge": true,
-    "packageRules": [
-      {
-        "matchBaseBranches": ["main"],
-        "schedule": ["at any time"],
-        "matchFileNames": ["*Dockerfile.konflux*"],
-        "matchUpdateTypes": ["digest"],
-        "enabled": true,
-        "groupName": "Dockerfile Digest Updates",
-        "branchPrefix": "konflux/mintmaker/",
-        "prBodyTemplate": "Updates Docker image digest for {{packageName}} to {{newVersion}}"
       }
     ]
   },
