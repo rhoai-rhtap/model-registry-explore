@@ -1,5 +1,5 @@
 # Use the golang image to build the application
-FROM golang:1.23.3 AS builder
+FROM golang:1.21 AS builder
 ARG TARGETOS
 ARG TARGETARCH
 
