@@ -5,10 +5,10 @@
   "baseBranches": ["main", "test-1"],
   "enabledManagers": ["dockerfile", "tekton"],
   "dockerfile": {
-    "enabled": false
+    "enabled": true
   },
   "tekton": {
-    "enabled": false
+    "enabled": true
   },
   "packageRules": [
     {
