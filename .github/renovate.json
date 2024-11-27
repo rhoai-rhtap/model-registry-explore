@@ -4,33 +4,20 @@
   "branchPrefix": "renovate/",
   "baseBranches": ["main", "test-1"],
   "enabledManagers": ["dockerfile", "tekton"],
-  "dockerfile": {
-    "enabled": true
-  },
-  "tekton": {
-    "enabled": true
-  },
   "packageRules": [
     {
       "matchManagers": ["dockerfile"],
       "matchBaseBranches": ["main"],
-      "matchFileNames": ["*Dockerfile.konflux*"],
       "matchUpdateTypes": ["digest"],
+      "matchFileNames": ["*Dockerfile.konflux*"],
       "enabled": true,
       "groupName": "Dockerfile Digest Updates - Main",
       "branchPrefix": "renovate/docker-main/",
-      "semanticCommits": "enabled",
-      "schedule": ["at any time"]
-    },
-    {
-      "matchManagers": ["dockerfile"],
-      "enabled": false,
-      "matchUpdateTypes": ["major", "minor", "pin", "pinDigest", "patch", "bump"]
+      "semanticCommits": "enabled"
     },
     {
       "matchManagers": ["tekton"],
       "matchBaseBranches": ["test-1"],
-      "matchFileNames": ["**/.tekton/**/*.yaml", "**/.tekton/**/*.yml"],
       "matchUpdateTypes": ["digest"],
       "enabled": true,
       "groupName": "Tekton Updates - test-1",
@@ -40,13 +27,56 @@
       "matchPackageNames": [
         "/^quay.io/redhat-appstudio-tekton-catalog//",
         "/^quay.io/konflux-ci/tekton-catalog//"
-      ],
-      "schedule": ["at any time"]
-    },
-    {
-      "matchManagers": ["tekton"],
-      "enabled": false,
-      "matchUpdateTypes": ["major", "minor", "pin", "pinDigest", "patch", "bump"]
+      ]
     }
-  ]
+  ],
+  "dockerfile": {
+    "enabled": true,
+    "schedule": ["at any time"],
+    "additionalBranchPrefix": "{{baseBranch}}/",
+    "branchPrefix": "konflux/mintmaker/",
+    "ignorePaths": [
+      "**/Dockerfile",
+      "!**/Dockerfile.konflux"
+    ]
+  },
+  "tekton": {
+    "enabled": true,
+    "schedule": ["at any time"],
+    "fileMatch": ["\\.yaml$", "\\.yml$"],
+    "includePaths": [".tekton/**"],
+    "packageRules": [
+      {
+        "matchUpdateTypes": [
+          "major",
+          "minor",
+          "pin",
+          "pinDigest",
+          "patch",
+          "bump"
+        ],
+        "enabled": false
+      },
+      {
+        "matchUpdateTypes": ["digest"],
+        "enabled": true,
+        "groupName": "Konflux references",
+        "branchPrefix": "konflux/references/",
+        "semanticCommits": "enabled",
+        "prFooter": "To execute skipped test pipelines write comment `/ok-to-test`",
+        "prBodyColumns": ["Package", "Change", "Notes"],
+        "prBodyDefinitions": {
+          "Notes": "{{#if (or (containsString updateType 'minor') (containsString updateType 'major'))}}:warning:[migration](https://github.com/redhat-appstudio/build-definitions/blob/main/task/{{{replace '^quay.io/(redhat-appstudio-tekton-catalog|konflux-ci/tekton-catalog)/task-' '' packageName}}}/{{{newVersion}}}/MIGRATION.md):warning:{{/if}}"
+        },
+        "prBodyTemplate": "{{{header}}}{{{table}}}{{{notes}}}{{{changelogs}}}{{{controls}}}{{{footer}}}",
+        "recreateWhen": "always",
+        "rebaseWhen": "behind-base-branch",
+        "matchPackageNames": [
+          "/^quay.io/redhat-appstudio-tekton-catalog//",
+          "/^quay.io/konflux-ci/tekton-catalog//"
+        ]
+      }
+    ]
+  },
+  "prHourlyLimit": 0
 }
