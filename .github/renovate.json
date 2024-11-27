@@ -7,18 +7,23 @@
   "packageRules": [
     {
       "matchManagers": ["dockerfile"],
-      "matchBaseBranches": ["main"],
+      "matchBaseBranches": ["main"],  
       "matchUpdateTypes": ["digest"],
-      "matchFileNames": ["*Dockerfile.konflux*"],
+      "matchFileNames": ["*Dockerfile.konflux*"], 
       "enabled": true,
       "groupName": "Dockerfile Digest Updates - Main",
       "branchPrefix": "renovate/docker-main/",
       "semanticCommits": "enabled"
     },
     {
+      "matchManagers": ["dockerfile"],
+      "matchBaseBranches": ["test-1"],
+      "enabled": false 
+    },
+    {
       "matchManagers": ["tekton"],
       "matchBaseBranches": ["test-1"],
-      "matchUpdateTypes": ["digest"],
+      "matchUpdateTypes": ["digest"],  
       "enabled": true,
       "groupName": "Tekton Updates - test-1",
       "branchPrefix": "renovate/tekton-test-1/",
@@ -33,12 +38,13 @@
   "dockerfile": {
     "enabled": true,
     "schedule": ["at any time"],
-    "additionalBranchPrefix": "{{baseBranch}}/",
+    "additionalBranchPrefix": "{{baseBranch}}/", 
     "branchPrefix": "konflux/mintmaker/",
     "ignorePaths": [
       "**/Dockerfile",
       "!**/Dockerfile.konflux"
-    ]
+    ],
+    "pinDigests": true,
   },
   "tekton": {
     "enabled": true,
@@ -61,7 +67,7 @@
         "matchUpdateTypes": ["digest"],
         "enabled": true,
         "groupName": "Konflux references",
-        "branchPrefix": "konflux/references/",
+        "branchPrefix": "konflux/references/", 
         "semanticCommits": "enabled",
         "prFooter": "To execute skipped test pipelines write comment `/ok-to-test`",
         "prBodyColumns": ["Package", "Change", "Notes"],
