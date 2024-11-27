@@ -1,6 +1,6 @@
 # Build the model-registry-storage-initializer binary
 # This assumes the root is the model-registry repository
-FROM registry.access.redhat.com/ubi8/go-toolset:1.22.7-5.1731464728 AS builder
+FROM registry.access.redhat.com/ubi8/go-toolset:1.21 AS builder
 
 WORKDIR /modelregistry
 # Copy the model-registry Go Modules manifests and sources
