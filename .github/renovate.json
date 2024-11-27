@@ -5,10 +5,33 @@
   "baseBranches": ["main", "test-1"],
   "enabledManagers": ["dockerfile", "tekton"],
   "dockerfile": {
-    "enabled": false
+    "enabled": true, 
+    "schedule": ["at any time"],
+    "fileMatch": ["^.*Dockerfile\\.konflux.*$"], 
+    "additionalBranchPrefix": "{{baseBranch}}/", 
+    "branchPrefix": "konflux/mintmaker/", 
+    "ignoreTests": true,
+    "automergeType": "pr",
+    "automerge": true
   },
   "tekton": {
-    "enabled": false
+    "enabled": true,
+    "schedule": ["at any time"],
+    "fileMatch": [".tekton/**/*.yaml", ".tekton/**/*.yml"],
+    "packageRules": [
+      {
+        "matchUpdateTypes": ["digest"],
+        "enabled": true,
+        "groupName": "Konflux references",
+        "branchPrefix": "konflux/references/",
+        "semanticCommits": "enabled",
+        "prFooter": "To execute skipped test pipelines write comment `/ok-to-test`",
+        "matchPackageNames": [
+          "/^quay.io/redhat-appstudio-tekton-catalog//",
+          "/^quay.io/konflux-ci/tekton-catalog//"
+        ]
+      }
+    ]
   },
   "packageRules": [
     {
