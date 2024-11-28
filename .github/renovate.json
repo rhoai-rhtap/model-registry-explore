@@ -13,7 +13,14 @@
       "enabled": true,
       "groupName": "Dockerfile Digest Updates - Main",
       "branchPrefix": "renovate/docker-main/",
-      "semanticCommits": "enabled"
+      "semanticCommits": "enabled",
+      "pinDigests": true
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "matchBaseBranches": ["test-1"],
+      "enabled": false,
+      "matchFileNames": ["*Dockerfile.konflux*"]
     },
     {
       "matchManagers": ["tekton"],
@@ -39,7 +46,6 @@
       "**/Dockerfile",
       "!**/Dockerfile.konflux"
     ],
-    "pinDigests": true
   },
   "tekton": {
     "enabled": true,
