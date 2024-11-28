@@ -38,7 +38,8 @@
     "ignorePaths": [
       "**/Dockerfile",
       "!**/Dockerfile.konflux"
-    ]
+    ],
+    "pinDigests": true
   },
   "tekton": {
     "enabled": true,
